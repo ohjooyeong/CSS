@@ -117,17 +117,22 @@
                 function doorHandler(e) {
                     let targetElem = e.target;
 
-                    if (currentItem) {
-                        inactivate(currentItem);
-                    }
-                    while (!targetElem.classList.contains("door")) {
+                    while (!targetElem.classList.contains("door-body")) {
                         targetElem = targetElem.parentNode;
                         if (targetElem.nodeName === "BODY") {
                             targetElem = null;
+                            if (currentItem) {
+                                inactivate(currentItem);
+                            }
                             return;
                         }
                     }
-                    activate(targetElem);
+                    if (currentItem) {
+                        inactivate(currentItem);
+                    }
+                    if (targetElem.classList.contains("door-body")) {
+                        activate(targetElem.parentNode);
+                    }
                 }
                 stageElem.addEventListener("click", doorHandler);
             }
